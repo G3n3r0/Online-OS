@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<link rel="shortcut icon" href="Twitter.png" />
+<title>Twitter</title>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/jquery-ui.css" type="text/css" />
+<style type="text/css">
+body.ui-widget-content {
+border: none;
+}
+.pic {
+position: relative;
+border-radius: 6px;
+}
+.tweetTxt {
+display: inline;
+vertical-align: middle;
+text-overflow: ellipsis;
+word-wrap: break-word
+}
+input[type="search"] {
+outline: none;
+border-radius: 6px;
+/*width: 15%;*/
+padding: 2px;
+background: #D7EBF9 url(https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/images/ui-bg_glass_80_d7ebf9_1x400.png);
+border: 1px solid #AED0EA;
+color: #2779AA;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+var url="http://search.twitter.com/search.json?callback=?&q=";
+var query;
+if(localStorage.tweetResults!=undefined) {
+var num = "&rpp="+localStorage.tweetResults;
+} else {
+var num = "";
+}
+//console.log("["+num+"]")
+$("#query").keyup(function(){
+//	$("#results").html("Loading...");
+	query=escape($("#query").val());
+	$.getJSON(url+query+num,function(json){
+		$("#results").html("");
+		$.each(json.results,function(i,tweet){
+			$("#results").append("<div><img src='"+tweet.profile_image_url+"' width='48' height='48' class='pic' title='"+tweet.from_user+"' /><span class='tweetTxt'>"+tweet.text+"</span></div><hr />");
+});
+});
+});
+});
+</script>
+</head>
+<body class="ui-widget-content">
+<input type="search" id="query" autocomplete="off" /><br />
+<div id="results"> 
+</div> 
+</body> 
+</html> 

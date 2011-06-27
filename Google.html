@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Google Search</title>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/jquery-ui.css" type="text/css" />
+<style>
+input[type='search'] {
+background: #D7EBF9 url(https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/images/ui-bg_glass_80_d7ebf9_1x400.png);
+border: 1px solid #AED0EA;
+color: #2779AA;
+/*padding: 0.4em 1em;*/
+height: 30px;
+border-radius: 6px;
+outline: none;
+width: 180px;
+margin-right: 2px;
+}
+input[type="button"] {
+margin-left: 0px;
+}
+body.ui-widget-content {
+border: none;
+}
+</style>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("input[type='button']").button();
+function searchit(term) {
+$.getJSON("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=8&callback=?&q="+term, function(data) {
+$("#searchResults").html("");
+//console.log(data.responseData.results)
+$.each(data.responseData.results, function(i, val) {
+//console.log(val);
+var link = $("<a />").attr("href", val.unescapedUrl).html(val.title).attr("title", val.visibleUrl)
+//console.log(link)
+var span = $("<span />").html(val.content).prepend(link.append("<br />"))
+$("#searchResults").append(span).append($("<hr />"))
+});
+$("#searchResults hr:last").remove();
+});
+}
+$("#search").live("click", function(e) {
+searchit($("#term").val())
+});
+$("#term").live("keyup", function(e) {
+if(e.keyCode==13) {
+searchit($(this).val());
+$(this).blur()
+}
+});
+});
+</script>
+</head>
+<body class="ui-widget-content">
+<input type="search" placeholder="Search Term" id="term" /><input id="search" type="button" value="Search" />
+<div id="searchResults">
+</div>
+</body>
+</html>

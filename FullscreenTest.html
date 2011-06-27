@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    margin:0px;
+}
+footer {
+    display: inline-block;
+    width:100%;
+    height:40px;
+    position:fixed;
+    bottom: 0px;
+    background-color: rgba(192, 192, 192, 0.7);
+    color: black;
+    text-align:right;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+#datetime {
+    line-height: 20px;
+    font-size:100%;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    window.t;
+    function clock() {
+    if(!!(window.innerHeight>=screen.height-5)) {
+        //alert("Bam");
+        $("footer").show();
+//        $("footer").html(new Date().toString())
+        var d2 = new Date();
+        var timeA2 = d2.toTimeString().split(":");
+        var time2 = timeA2[0]+":"+timeA2[1];
+        var date2 = d2.toDateString();
+        //console.log(time, date)
+        //console.log(time);
+        $("#datetime").html(date2+" "+time2)
+          window.t = setInterval(function() {
+                var d = new Date();
+                var timeA = d.toTimeString().split(":");
+                var time = timeA[0]+":"+timeA[1];
+                var date = d.toDateString();
+                //console.log(time, date)
+                //console.log(time);
+                $("#datetime").html(date+"<br />"+time)
+      }, 500);
+    } else {
+        $("footer").hide()
+        clearInterval(window.t)
+    }
+    }
+//  $("p").click(function(){
+//    $(window).resize(function() {
+//  console.log(window.innerHeight, screen.height)
+//    console.log(!!(window.innerHeight>=screen.height-2))
+/*    var t;
+    if(!!(window.innerHeight>=screen.height-2)) {
+        alert("Bam");
+        $("footer").show();
+//          var t = setTimeout(3000, function() {
+var d = new Date()
+              $("footer").html(d.toString())
+//      })
+    } else {
+        $("footer").hide()
+        clearTimeout(t)
+    }
+  });*/
+  $(window).resize(clock)
+  clock()
+});
+</script>
+</head>
+<body>
+<footer>
+<img src="cloudiIcon.png" height="100%" align="left" />
+<span id="datetime"></span>
+</footer>
+</body>
+</html>

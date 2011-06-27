@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_BLANK" />
+<!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" />-->
+<style>
+.ui-body-c {
+background: none;
+}
+</style>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/jquery-ui.css" type="text/css" />
+<style>
+body {
+margin: 0px;
+}
+body.ui-widget-content {
+border: none;
+}
+#g3n3r0 {
+width: 100px;
+height: 100px;
+display: inline;
+position: relative;
+border-radius: 6px;
+}
+#author p {
+display: inline;
+position: absolute;
+}
+#copyright a {
+text-decoration: none;
+}
+#copyright a:hover {
+text-decoration: underline;
+}
+.noDisplay {
+display: none;
+}
+a[data-role="button"] {
+display: block;
+height: 100%;
+overflow: hidden;
+padding: 0.6em 25px;
+position: relative;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+
+border-color: rgba(255, 255, 255, 0.296875);
+border-top: 1px solid rgba(255, 255, 255, 0.296875);
+
+cursor: pointer;
+text-align: center;
+
+border-bottom-left-radius: 0.6em 0.6em;
+border-bottom-right-radius: 0.6em 0.6em;
+border-top-left-radius: 0.6em 0.6em;
+border-top-right-radius: 0.6em 0.6em;
+
+background: #EEE -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FDFDFD), to(#EEE));
+background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FDFDFD), to(#EEE));
+border: 1px solid #CCC;
+color: #444;
+cursor: pointer;
+font-weight: bold;
+text-decoration: none;
+text-shadow: #F6F6F6 0px 1px 1px;
+
+font-family: Helvetica, Arial, sans-serif;
+}
+a[data-role="button"]:active {
+background: #FDFDFD -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEE), to(#FDFDFD));
+background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEE), to(#FDFDFD));
+color: #111;
+font-weight: bold;
+text-shadow: white 0px 1px 1px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+<!--<script src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js"></script>-->
+<script src="http://code.google.com/apis/gears/gears_init.js" type="text/javascript"></script>
+<script>
+$(document).ready(function() {
+if(window.webkitNotifications) {
+$("div[data-role='controlgroup']").prepend("<a href='#notifications' data-role='button'>Notifications</a>");
+var perms = window.webkitNotifications.checkPermission();
+if(perms==0) {
+var permEn = "on";
+} else if(perms==1 || perms==2) {
+var permEn = "off";
+}
+//console.log(perms, permEn)
+$("<p>Current Permissions: Notifications are "+permEn+"</p>").appendTo("#notifications");
+}
+if(localStorage.tweetResults!=undefined) {
+$("#tweetNum").val(localStorage.tweetResults)
+}
+$("input[type='button']").button();
+function dialogIt(s, title) {
+//console.log(s, title);
+s.dialog({
+title: title,
+modal: true,
+width: "99%",
+height: 0.98*window.innerHeight,
+resizable: false,
+draggable: false,
+show: "slide",
+hide: "slide"
+});
+}
+$("a[data-role='button']").live("click", function(e) {
+dialogIt($($(this).attr("href")), $(this).text());
+e.preventDefault();
+});
+$("#activButton").live("click", function(e) {
+window.webkitNotifications.requestPermission(function() {$("#notifications").dialog("close")});
+//console.log(window.webkitNotifications.checkPermission());
+});
+$("#tweetButton").click(function() {
+localStorage.tweetResults=$("#tweetNum").val();
+$("#numTweets").dialog("close");
+});
+$("#tweetDef").click(function() {
+localStorage.removeItem("tweetResults");
+$("#numTweets").dialog("close");
+});
+$("#x").click(function() {
+    localStorage.removeItem("bgImg");
+    $("#bgInfo").dialog("close");
+});
+$("#input").change(function() {
+var files = this.files;
+//console.log(files)
+//  for (var i = 0; i < files.length; i++) {
+    var file = files[0];
+    var imageType = /image.*/;
+//console.log(file)
+    
+    /*if (!file.type.match(imageType)) {
+      continue;
+    }*/
+    
+    var img = document.createElement("img");
+//console.log(img)
+    //img.classList.add("obj");
+    //img.file = file;
+    //document.body.appendChild(img);
+    //aImg.src = e.target.result;
+    //$("body").css("background-image", "url("+e.target.result+")").addClass("imgd");
+    var reader = new FileReader();
+//console.log(reader)
+    reader.onload = (function(aImg) { return function(e) { localStorage.bgImg = e.target.result; $("#bgInfo").dialog("close") }; })(img);
+    reader.readAsDataURL(file);
+//  }
+})
+function homeScreener() {
+    $("#homeScreen ol").hide();
+    var gearsInstall = "http://gears.google.com/?action=install&message=Hello!%20If%20you%20can,%20install%20this.%20Then%20you%20can%20add%20a%20shortcut%20icon.&name=Cloudi&icon_src=http://colinatkinson.angryhosting.com/cloudiIcon.png&return="+location.href;
+    $("#gearsInstall").attr("href", gearsInstall)
+    var ua = navigator.userAgent;
+    if(ua.match(/iphone|ipod|ipad/gi)) {
+        $("#iphone").show();
+    } else if(ua.match(/android/gi)) {
+        $("#android").show();
+    } else if(ua.match(/webos/gi)) {
+        $("#palm").show();
+    } else if(window.google) {
+        $("#gears").show();
+    } else {
+        $("#other").show()
+    }
+}
+homeScreener();
+$("#gearsLink").live("click", function(e) {
+  var desktop = google.gears.factory.create("beta.desktop");
+  var description = "Cloudi: Your Online Desktop";
+  var icon = "http://colinatkinson.angryhosting.com/cloudiIcon.png"
+  var icons = {
+    "128x128": "cloudiIcon3.png"
+  };
+ 
+  desktop.createShortcut("Cloudi",  // name
+                         "jqueryUiThingy.html",  // url
+                         icons,  // icons (must specify at least one)
+                         description);  // description (optional)
+});
+});
+</script>
+</head>
+<body class="ui-widget-content" data-role="page" data-theme="c">
+<div data-role="controlgroup">
+<a href="#numTweets" data-role="button">Twitter</a>
+<a href="#gravatarAccount" data-role="button">Gravatar Account</a>
+<a href="#bgInfo" data-role="button">Background</a>
+<a href="#homeScreen" data-role="button">Shortcut</a>
+<!--Info-->
+<a href="#author" data-role="button">Author</a>
+<a href="#imageCredits" data-role="button">Image Credits</a>
+<a href="#techJargon" data-role="button">Tech Jargon</a>
+<a href="#copyright" data-role="button">Copyright</a>
+</div>
+
+<div class="noDisplay">
+<!--Actual Settings-->
+<div id="notifications">
+In order to set your notification permissions, click the button below.<br />
+<input type="button" id="activButton" value="Change" />
+</div>
+<div id="numTweets">
+Change the number of tweets displayed in the Twitter app with the slider below. When you are finished, click the button. The default is fifteen.
+<input type="number" id="tweetNum" max="100" min="0" value="15" /><input type="button" id="tweetButton" value="Set" /><br />
+<input type="button" id="tweetDef" value="Restore Default" />
+</div>
+<iframe src="Gravatar.html" id="gravatarAccount">
+<noframes>Sorry, your browser doesn't support iframes.</noframes>
+</iframe>
+<div id="bgInfo">
+<input type="file" id="input" onchange="//handleFiles(this.files)"><button id="x">X</button>
+</div>
+<div id="homeScreen">
+<ol id="iphone">
+<li>Tap the "+" icon, or the middle icon on the bar at the screen's bottom.</li>
+<li>Tap "Add to Home Screen."</li>
+<li>Tap "Add" in the top right corner.</li>
+</ol>
+<ol id="android">
+<li>Bookmark the page you want to add to a home screen.</li>
+<li>Go to the home screen you want to add the link to.</li>
+<li>long-press in an empty space to bring up the "Add to Home Screen" menu.</li>
+<li>Select "Shortcuts."</li>
+<li>Select "Bookmark."</li>
+<li>Select Cloudi.</li>
+</ol>
+<ol id="palm">
+<li>In the top left corner, open the menu by tapping Web.</li>
+<li>Select Page, then select Add to launcher.</li>
+<li>Confirm by tapping Add To Launcher.</li>
+</ol>
+<ol id="gears">
+<li>Click <b id="gearsLink">here</b>.
+</ol>
+<ol id="other">
+<li>Sorry, I don't know if you can add a shortcut. Try installing <a href="" id="gearsInstall">Gears</a>.</li>
+</ol>
+</div>
+
+<!--Information-->
+<div id="author">
+<img src="G3n3r0.png" alt="[G3n3r0]" id="g3n3r0" title="G3n3r0" />
+<p>"G3n3r0" is a web designer/developer situated in New York, USA. He loves jQuery, CSS3 and HTML5. He reminds you that computers are only as evil as their programmers. His hero is Watson, IBM's <i>Jeopardy!</i>-winning supercomputer.</p>
+</div>
+<div id="imageCredits">
+<b>Icons:</b> The icons in this application were either created by me or downloaded as freebies from <a href="http://www.sixrevisions.com">Six Revisions</a>. The map icon is from the Glyphish icon collection. I take no credit for the icons of the apps that you add. Those are the work of the app authors.<br />
+<b>Background:</b> The background image for the main page is part of the jQuery UI theme "Cupertino." I love it, and I hope that you do too.
+</div>
+<div id="techJargon">
+This application uses a wide variety of modern web techniques to operate. It uses CSS3 to look as good as it does. It uses HTML5 persitent storage to store your data. It uses jQuery and jQuery UI for effects and core programming. The point is that, well, it might not work perfectly in some browsers(Konqueror, Internet Explorer, etc.). I am trying to decrease the occurences of this problem, but there are some theings that I just can't fix.
+</div>
+<div id="copyright">
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Copyright</a> &copy; 2011 G3n3r0
+</div>
+</div>
+</body>
+</html>

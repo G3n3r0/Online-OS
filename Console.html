@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Console</title>
+<link rel="shortcut icon" href="ConsoleIcon.png" />
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/vader/jquery-ui.css" type="text/css" />
+<style>
+body.ui-widget-content {
+border: none;
+}
+#cmd {
+background: #DDD url(https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/vader/images/ui-bg_highlight-soft_60_dddddd_1x100.png);
+border: 1px solid #DDD;
+padding: 0.4em 1em;
+border-radius: 5px;
+font-family: Helvetica, Arial, sans-serif;
+font-size: 1.1em;
+outline: none;
+}
+output {
+display: inline-block;
+width: 100%;
+white-space: nowrap;
+word-wrap: normal;
+font-family: Helvetica, Arial, sans-serif;
+font-weight: bold;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+<script>
+$(document).ready(function() {
+//$("input[type='text']").button();
+var funcArr = new Array();
+funcArr[0] = "commands";
+funcArr[1] = "cmds";
+funcArr[2] = "apps";
+funcArr[3] = "useragent";
+funcArr[4] = "lang";
+funcArr[5] = "cpu";
+funcArr[6] = "os";
+funcArr[7] = "browser";
+funcArr[8] = "print"
+funcArr[9] = "vars|||'variableName',['variableValue']";
+
+$("#cmd").autocomplete({source: funcArr})
+
+function evalCommand(com) {
+if(!com.match("|||")) {
+eval(com+"()");
+} else {
+var comS = com.split("|||");
+eval(comS[0]+"("+comS[1]+")");
+}
+}
+function apps() {
+$("output").html(localStorage.apps.match(/class=\"icon\"/gi).length);
+}
+function useragent() {
+$("output").html(navigator.userAgent);
+}
+function lang() {
+$("output").html(navigator.userLanguage || navigator.systemLanguage || navigator.language);
+}
+function cpu() {
+if(navigator.cpuClass) {
+$("output").html(navigator.cpuClass);
+} else {
+$("output").html("Not Supported")
+}
+}
+function os() {
+$("output").html(navigator.platform);
+}
+function browser() {
+if(navigator.vendor) {
+var vend = " by "+navigator.vendor;
+} else {
+var vend = "";
+}
+$("output").html(navigator.appCodeName+" "+navigator.appName+" for "+navigator.platform+vend);
+}
+function vars(varname, value) {
+if(value) {
+localStorage.setItem(varname, value);
+}
+$("output").html(localStorage.getItem(varname));
+}
+
+function cmds() {
+$("output").html("");
+for(a=0;a<funcArr.length;a++) {
+if(a<funcArr.length-1) {
+var br = "<br />";
+} else {
+var br = "";
+}
+$("output").append(funcArr[a]+br)
+}
+}
+function commands() {
+cmds();
+}
+$("#cmd").keyup(function(e) {
+if(e.keyCode==13) {
+evalCommand($(this).val());
+//$(this).blur();
+$(this).val("");
+$(this).autocomplete("close");
+}
+});
+});
+</script>
+</head>
+<body class="ui-widget-content">
+<output></output><br />
+<input type="text" id="cmd" />
+</body>
+</html>

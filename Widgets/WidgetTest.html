@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/jquery-ui.css" type="text/css" />
+<style>
+#widgetBox {
+    position: absolute;
+    right:10px;
+}
+.widget {
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+    border-radius: 5px;
+    width: 150px;
+    height: 70px;
+    //padding: 2px;
+}
+.widgetHandle {
+    height: 15px;
+    cursor: move;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.widgetContent {
+    height: 55px;
+}
+.widgetContent iframe {
+    padding:0px;
+    border:none;
+    margin:0px;
+    width:100%;
+    height:100%;
+}
+#searchInput {
+    border: 1px solid #AED0EA;
+    color: #2779AA;
+    /*padding: 0.4em 1em;*/
+    height: 30px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    outline: none;
+    width: 100%;
+    display:inline-block;
+    vertical-align:middle;
+    margin-right: 2px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+<script>
+$(document).ready(function() {
+    $(".widget").draggable({handle: ".widgetHandle", containment:"document"})
+});
+</script>
+</head>
+<body>
+<div id="widgetBox">
+<div class="widget">
+<div class="widgetHandle"></div>
+<div class="widgetContent">
+<iframe src="Clock.html"></iframe>
+</div>
+</div>
+<br />
+<div class="widget">
+<div class="widgetHandle"></div>
+<div class="widgetContent">
+<iframe src="Memo.html"></iframe>
+</div>
+</div>
+<br />
+<div class="widget">
+<div class="widgetHandle"></div>
+<div class="widgetContent">
+<input type="search" placeholder="Search Term" id="searchInput" />
+</div>
+</div>
+
+</div>
+</body>
+</html>

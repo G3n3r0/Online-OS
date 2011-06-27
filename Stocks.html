@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stocks</title>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/dark-hive/jquery-ui.css" type="text/css" />
+<style>
+h2 {
+display: inline;
+}
+body {
+font-family:Arial, Helvetica, sans-serif;
+}
+body.ui-widget-content {
+border: none;
+}
+span[data-change="plus"] {
+color: green;
+}
+span[data-change="minus"] {
+color: red;
+}
+input.ui-button {
+cursor: text;
+text-align: left;
+outline: none;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    color:black;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+function checkStocks(symb) {
+$("#stock").html("Loading...")
+var query = escape("select * from yahoo.finance.quotes where symbol in ('"+symb+"')");
+var url = "http://query.yahooapis.com/v1/public/yql?q="+query+"&format=json&callback=?&env=store://datatables.org/alltableswithkeys";
+$.getJSON(url, function(data) {
+var quote = data.query.results.quote;
+var percent = quote.ChangeinPercent;
+
+var changeType = "minus";
+if(!percent.match(/\-/gi)) {
+//percent = "+"+percent;
+changeType = "plus";
+}
+//var stg = quote.Name+"("+quote.symbol+"): "+quote.AskRealtime+"("+percent+")";
+var head = "<h2>"+quote.Name+"("+quote.symbol+")"+"</h2>";
+var info = quote.AskRealtime+"(<span data-change='"+changeType+"'>"+percent+"</span>)"
+var stg = head+"<br />"+info;
+$("#stock").html(stg)
+//quote.AskRealtime
+//quote.Name
+//quote.ChangeinPercent;
+});
+}
+$("#symbInp").keyup(function(e) {
+if(e.keyCode==13) {
+checkStocks($(this).val());
+$(this).blur()
+}
+});
+
+});
+</script>
+</head>
+<body class="ui-widget-content">
+<input type="search" id="symbInp" placeholder="Symbol(ex. GOOG)" class="ui-button ui-widget ui-state-default ui-corner-all" spellcheck="false" autocapitalize="off" autocorrect="off" width="4" />
+<div id="stock">
+</div>
+</body>
+</html>

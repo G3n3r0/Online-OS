@@ -1,0 +1,61 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/jquery-ui.css" type="text/css" />
+<style>
+body {
+margin:0px;
+padding:0px;
+margin-top: 2px;
+}
+body.ui-widget-content {
+border: none;
+}
+.youtubePlayer {
+border: none;
+padding-top: 5px;
+}
+input[type='text'] {
+background: #D7EBF9 url(https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/images/ui-bg_glass_80_d7ebf9_1x400.png);
+border: 1px solid #AED0EA;
+color: #2779AA;
+/*padding: 0.4em 1em;*/
+height: 30px;
+border-radius: 6px;
+outline: none;
+width: 189px;
+margin-right: 2px;
+}
+input[type="button"] {
+margin-left: 2px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("input[type='button']").button();
+function search(name, artist) {
+  $.getJSON("http://gdata.youtube.com/feeds/api/videos?alt=json&callback=?&q="+escape(name)+"-"+escape(artist), function(data) {
+var d = data.feed.entry[0].id.$t;
+var d2 = d.split("/");
+var d3 = d2[d2.length-1];
+var d4 = "http://www.youtube.com/embed/"+d3;
+$(".youtubePlayer").remove();
+var f = $("<iframe />").addClass("youtubePlayer").attr("src", d4).attr("width", 300).attr("height", 25).attr("title", name+"-"+artist);
+//console.log(f)
+f.appendTo("body")
+});
+}
+$("#submitButton").click(function() {
+search($("#name").val(), $("#artist").val())
+});
+
+});
+</script>
+</head>
+<body class="ui-widget-content">
+<input id="name" type="text" placeholder="Song Name" />
+<input id="artist" type="text" placeholder="Artist" />
+<input id="submitButton" type="button" value="Search" /><br />
+</body>
+</html>

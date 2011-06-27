@@ -1,0 +1,109 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/jquery-ui.css" type="text/css" />
+<style>
+body {
+    margin:0px;
+    padding:0px;
+}
+#tweet b{
+    vertical-align:top;
+}
+#flickr img {
+    max-width:300px;
+    max-height:300px;
+}
+#flickr {
+    padding:0px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+<script>
+$(document).ready(function() {
+    $("body").tabs();
+    /*function multiSearch(term) {
+        var search = {};
+        search.web = "https://ajax.googleapis.com/ajax/services/search/web?v=1.0&alt=json&callback=?&q=";
+        search.twitter = "http://search.twitter.com/search.json?callback=?&q=";
+        search.flickr = "http://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&jsoncallback=?&tags=";
+        var datas = {};
+        datas.web = ["responseData", "results"];
+        datas.twitter = ["results"];
+        datas.flickr = ["items"];
+        var datas2 = {};
+        datas2.web = ["title", "content"];
+        datas2.twitter = []
+        datas2.flickr = [];
+        var result = {};
+        $.each(search, function(i, val) {
+            $.getJSON(val+escape(term), function(a) {
+                //console.log(i, a);
+                var m = a;
+                $.each(datas[i], function(i2, val2) {
+                    m = m[val2];
+                })
+                //console.log(i, m)
+                //result[i] = m;
+                var n;
+                $.each(m, function(b,c) {
+                    $.each(c, function(d,e) {
+                    })
+                })
+            })
+        })
+        //console.log(result)
+    }*/
+    function webSearch(term) {
+        var url = "https://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=8&alt=json&callback=?&q=";
+        $.getJSON(url+escape(term), function(data) {
+            //console.log(data.responseData.results);
+            $.each(data.responseData.results, function(i, val) {
+                $("<a href='"+val.url+"'>"+val.title+"</a><br />"+val.content+"<br /><small>"+val.visibleUrl+"</small><hr />").appendTo("#web")
+                //console.log(val)
+            })
+            $("#web hr:last").remove();
+        })
+    }
+    function tweetSearch(term) {
+        var url = "http://search.twitter.com/search.json?callback=?&q=";
+        $.getJSON(url+escape(term), function(data) {
+            //console.log(data);
+            $.each(data.results, function(i, val) {
+                $("<b><img src='"+val.profile_image_url+"' alt='[Pic]' />"+val.from_user+"</b><br />"+val.text+"<hr />").appendTo("#twitter")
+                //console.log(val.profile_image_url, val.from_user, val.text);
+            })
+            $("#twitter hr:last").remove();
+        })
+    }
+    function flickrSearch(term) {
+        var url = "http://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&jsoncallback=?&tags=";
+        $.getJSON(url+escape(term), function(data) {
+            //console.log(data);
+            $.each(data.items, function(i, val) {
+                $("<img src='"+val.media.m+"' alt='"+val.title+"' />").appendTo("#flickr")
+                //console.log(val.media.m, val.title);
+            })
+            //$("#flickr hr:last").remove();
+        })
+    }
+    function multiSearch(term) {
+        webSearch(term);
+        tweetSearch(term);
+        flickrSearch(term);
+    }
+    multiSearch(location.hash.replace(/^\#/i, ""))
+});
+</script>
+</head>
+<body class="ui-widget-content">
+<ul>
+<li><a href="#web">Web</a></li>
+<li><a href="#twitter">Twitter</a></li>
+<li><a href="#flickr">Flickr</a></li>
+</ul>
+<div id="web"></div>
+<div id="twitter"></div>
+<div id="flickr"></div>
+</body>
+</html>

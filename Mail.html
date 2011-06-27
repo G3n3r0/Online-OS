@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/jquery-ui.css" type="text/css" />
+<style>
+body {
+background-color: transparent;
+}
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text {
+padding: 0px;
+}
+input, textarea {
+background: #D7EBF9 url(https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/images/ui-bg_glass_80_d7ebf9_1x400.png);
+border: 1px solid #AED0EA;
+color: #2779AA;
+/*padding: 0.4em 1em;*/
+height: 30px;
+border-radius: 6px;
+outline: none;
+width: 189px;
+margin-right: 2px;
+margin-top: 2px;
+}
+textarea {
+width: 201px;
+height: 42px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#link").button({
+text: false,
+icons: {primary: "ui-icon-circle-arrow-e"}
+});
+function thingy() {
+/*var to = document.querySelector("input[name='to']");
+var sub = document.querySelector("input[name='subject']");
+var body = document.querySelector("textarea[name='body']");
+//console.log(body.value)
+*/
+var to = $("input[name='to']");
+var sub = $("input[name='subject']");
+var body = $("textarea[name='body']");
+
+//var link = "mailto:"+escape(to.value)+"?subject="+escape(sub.value)+"&body="+escape(body.value);
+var link = "mailto:"+escape(to.val())+"?subject="+escape(sub.val())+"&body="+escape(body.val());
+//console.log(link);
+//document.querySelector("#link").setAttribute("href", link);
+$("#link").attr("href", link);
+}
+$("input, textarea").keyup(function() {
+thingy();
+});
+
+});
+/*
+function clearThem() {
+document.querySelector("input[name='to']").setAttribute("name", "");
+document.querySelector("input[name='subject']").setAttribute("name", "");
+document.querySelector("textarea[name='body']").setAttribute("name", "");
+}*/
+</script>
+<link rel="shortcut icon" href="MailIcon.ico" />
+</head>
+<body>
+<!--<form id="form" action="mailto:" enctype='text/plain' onsubmit="clearThem()">-->
+<input type="email" name="to" title="To" placeholder="To" /><br />
+<input type="text" name="subject" title="Subject" placeholder="Subject" /><br />
+<textarea name="body" title="Body" placeholder="Body" rows="26" cols="3"></textarea><br />
+<a href="mailto:" id="link" title="Send">Send</a>
+<!--<input type="submit" />
+</form>-->
+</body>
+</html>
