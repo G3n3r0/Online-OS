@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/*@import url()*/
+</style>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    function addApp(url) {
+        //$('<img src="" class="icon" data-href="'+url+'" alt="'+title+'" title="'+title+'" />')
+        $("body").append($("<iframe />").attr("src", "http://cloud9ide.com/g3n3r0/online_os/workspace/jqueryUiThingy.html#addApp{"+escape(url)+"}").width(0).height(0).load(function(){$(this).remove();window.parent.location.href=window.parent.location.href+"#openApp{"+location.href+", App Store}";window.parent.location.reload();}))
+    }
+    function popular() {
+        var url = "http://feeds.delicious.com/v2/json/recent/webapp?callback=?&count=100"
+        $.getJSON(url, function(data) {
+            $.each(data, function(i, val) {
+                //console.log(i, val)
+                $("<a href='"+val.u+"' data-role='button' class='app'>"+val.d+"</a>").appendTo("#recent").button()
+            })
+            //$("#popular").page()
+        })
+    }
+    popular()
+    $(document).live("abc", function(e) {
+        console.log(e)
+    })
+    $(".app").live("click", function(e) {
+        addApp($(this).attr("href"))
+        e.preventDefault();
+    })
+    $("*[data-role=navbar] a").attr("rel", "external");
+})
+</script>
+</head>
+<body data-role="page">
+<div data-role="header" data-position="fixed">
+<h1>App Store</h1>
+</div>
+<div data-role="content">
+<div id="recent">
+<!--<ul>
+<a href="index.html" data-role="button" data-icon="delete">Delete</a>
+</ul>-->
+</div>
+</div>
+<div data-role="footer" data-position="fixed" data-id="foot">
+    <div data-role="navbar">
+        <ul>
+    		<li><a href="popular.html">Popular</a></li>
+			<li><a href="recent.html" class="ui-btn-active">Recent</a></li>
+            <li><a href="search.html">Search</a></li>
+		</ul>
+	</div><!-- /navbar -->
+</div><!-- /footer -->
+</body>
+</html>
