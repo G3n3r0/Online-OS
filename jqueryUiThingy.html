@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stratusism</title>
+<link rel="shortcut icon" href="cloudiIcon.png" />
+<link rel="apple-touch-icon-precomposed" href="cloudiIcon.png" />
+<link rel="apple-touch-icon" href="cloudiIcon.png" />
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<base target="_BLANK" />
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/jquery-ui.css" type="text/css" />
+<style type="text/css">
+body {
+margin: 0px;
+overflow: hidden;
+overflow-y: hidden;
+overflow-x: hidden;
+/*
+word-wrap: normal;
+white-space: nowrap;
+*/
+}
+.icon-window, .icon-window-n {
+z-index: 5;
+position: absolute;
+display: inline-block;
+margin: 10px;
+/*
+margin-top: 1.30208333%;
+margin-bottom: 1.30208333%;*/
+margin:0.651041667%;
+width: 120px;
+//width: 8.78%;
+/*height: 500px;
+*/
+/*background-color: rgb(199, 200, 200);
+background-color: rgba(150, 150, 150, 0.5);*/
+background-color: rgb(169, 171, 172);
+background-color: rgba(0,0,0,0.3);
+}
+.icon-window-n {
+top: 0px;
+//left: 9.43104167%;
+left: 125px;
+}
+.icon-window-apps, .icon-window-apps-n {
+/*height: 65.755%;*/
+overflow: auto;
+}
+.icon, .iconN {
+cursor: pointer;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+display: inline;
+width: 40px;
+height: 40px;
+
+//width: 33%;
+/*height: 5.208%;
+margin-left: 5px;
+margin-right: 5px;
+margin-top: 5px;
+*/
+margin-left: 4.17%;
+margin-right: 4.17%;
+margin-top: 4.17%;
+}
+iframe {
+margin: 0px;
+padding: 0px;
+border: 1px solid black;
+}
+.ui-dialog .ui-dialog-content {
+padding: 0px;
+background-color: transparent;
+}
+body.ui-widget-content {
+border: none;
+}
+body.imgd {
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-color: #F2F5F7;
+}
+/*
+.icon-window img {
+cursor: pointer;
+border-radius: 5px;
+}*/
+#plusSignCon, #plusSignConN {
+font-size: 100%;
+cursor: move;
+text-align: right;
+border: 1px solid rgb(152, 154, 154);
+border-bottom: 1px solid rgba(0,0,0,0.1);
+height: 25px;
+}
+#plusSign, #xSign {
+/*text-align: right;*/
+cursor: pointer;
+font-size: 20px;
+}
+.noDisplay {
+display: none;
+}
+input[type='url'] {
+background: #D7EBF9 url(https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/images/ui-bg_glass_80_d7ebf9_1x400.png);
+border: 1px solid #AED0EA;
+color: #2779AA;
+/*padding: 0.4em 1em;*/
+height: 30px;
+-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
+outline: none;
+width: 189px;
+margin-right: 2px;
+}
+input[type="button"] {
+margin-left: 2px;
+}
+.ui-selecting, .ui-selected {
+opacity: 0.5;
+}
+.ui-dialog, .icon-window-n, .icon-window, .widget {
+    //filter:progid:DXImageTransform.Microsoft.DropShadow(color='#000000',offX='4',offY='5');
+    -webkit-box-shadow:4px 5px 10px black;
+    -moz-box-shadow:4px 5px 10px black;
+    box-shadow:4px 5px 10px black;
+}
+#minimized-dialog-container .ui-dialog {
+    //filter:none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+/*Widgets*/
+#widgetBox {
+    position: absolute;
+    right:10px;
+}
+.widget {
+    z-index: 3;
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+    border-radius: 5px;
+    width: 150px;
+    height: 70px;
+    //padding: 2px;
+}
+.widgetHandle {
+    height: 15px;
+    cursor: move;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.widgetContent {
+    height: 55px;
+}
+.widgetContent iframe {
+    padding:0px;
+    border:none;
+    margin:0px;
+    width:100%;
+    height:100%;
+}
+#searchInput {
+    border: 1px solid #AED0EA;
+    color: #2779AA;
+    /*padding: 0.4em 1em;*/
+    height: 30px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    outline: none;
+    width: 100%;
+    display:inline-block;
+    vertical-align:middle;
+    margin-right: 2px;
+}
+.widget iframe {
+    overflow: hidden;
+}
+@media only screen and (max-device-width: 480px) {
+    .widget:not(.search) {
+        display: none;
+    }
+    .search {
+/*        position: fixed;
+        bottom: 0px;
+        left:0px;*/
+        width:100%;
+    }
+    .search #searchInput {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        display: inline-block;
+    }
+    .search .widgetHandle {
+        display: none;
+    }
+    .icon-window, .icon-window-n {
+        border: none;
+        width: 50%;
+        margin: 0px;
+        padding: 0px;
+    }
+    #plusSignCon, #plusSignConN {
+        border-left: none;
+        border-right: none;
+    }
+    .icon-window-n {
+        position: absolute;
+        left: 50%;
+    }
+    .ui-dialog, .icon-window-n, .icon-window, .widget {
+        //filter:progid:DXImageTransform.Microsoft.DropShadow(color='#000000',offX='4',offY='5');
+        -webkit-box-shadow:none;
+        -moz-box-shadow:none;
+        box-shadow:none;
+    }
+    .ui-state-disabled {
+        opacity: 1.0;
+        filter:Alpha(Opacity=100);
+    }
+}
+</style>
+<!--[if lte IE 8]>
+<style>
+.ui-dialog, .icon-window-n, .icon-window, .widget {
+    filter:progid:DXImageTransform.Microsoft.DropShadow(color='#000000',offX='4',offY='5');
+}
+#minimized-dialog-container .ui-dialog {
+    filter:none;
+}
+</style>
+<![endif]-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+<script src="JQUITouch.js"></script>
+<script src="touchScroll.js"></script>
+<script src="jquery.dialogextend.pack.js" type="text/javascript"></script>
+<script src="modernizr.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".widget").draggable({handle: ".widgetHandle", containment:"document"})
+var dialogEffect = {effect: "slide", easing: "easeInOutSine", duration: "slow"};
+$("input[type='text'], input[type='url']").attr("x-webkit-speech","x-webkit-speech");
+$(".icon-window").draggable({handle: "#plusSignCon", containment: "document"});
+$(".icon-window-n").draggable({handle: "#plusSignConN", containment: "document"});
+//$(".icon-window").resizable({handles: "s, e", alsoResize: ".icon"});
+$("input[type='button']").button();
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+document.body.style.webkitTouchCallout="none";
+//$(".icon-window-apps").selectable()
+//console.log(!("ontouchstart" in document.createElement("div")))
+if(!("ontouchstart" in document.createElement("div"))) {
+$(".icon-window-apps").sortable({
+    stop: function() {
+        updateContent();
+    }
+})
+}
+
+function readContent() {
+if(localStorage.apps==undefined) {
+//if(localStorage.getItem("apps")==undefined)
+localStorage.apps = "";
+}
+$(".icon-window-apps").html(localStorage.apps);
+if(localStorage.bgImg) {
+  $("body").css("background-image", "url("+localStorage.bgImg+")").addClass("imgd");  
+}
+}
+function updateContent() {
+localStorage.apps = $(".icon-window-apps").html();
+}
+/*
+$(".icon-window-apps").sortable({
+change: function() { updateContent() }
+});*/
+
+function testStorageSupport() {
+try {
+return 'localStorage' in window && window['localStorage'] !== null;
+}
+catch(e) {
+return false;
+}
+}
+function isSupported() {
+if(!testStorageSupport()) {
+$("<p>Sorry, your browser is not currently supported.</p>").dialog({
+  closeOnEscape: false,
+  open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
+  modal: true,
+  title: "Unsupported! &#9785;"
+});
+}
+}
+
+readContent();
+
+//$("<p>Hi</p>").dialog({modal: true,title:"Hi",resizable:false,width: 200,height:75,position: "center"});
+function writeData(name, data) {
+if(testSupportStorage()) {
+localStorage.setItem(name, data);
+} else {
+/*
+var today=new Date();
+today.setDate(today.getDate()+1825);
+var date = today.toUTCString();
+document.cookie = name+"="+data+";expires="+date+"; path: /";
+*/
+$("<h1>Unsupported!</h1>").dialog({modal: true});
+}
+}
+function isMobile() {
+    return !!('ontouchstart' in document.createElement("div"));
+}
+function openApp(url, title) {
+var wid = 250;
+var hei = 250;
+if(!isMobile()) {
+var resiz = true;
+var pos = "center";
+} else {
+var resiz = false;
+var pos = "top"
+wid = window.innerWidth-60;
+}
+//var frame = $("<iframe />");
+//var frame = document.createElement("iframe");
+//frame.attr("src",url);
+//frame.attr("width", wid);
+//var title = frame.document.title;
+//console.log(frame.attr("width"));
+//alert(typeof frame);
+//$("body").append(frame);
+//frame.dialog({width: wid+50, height: hei});
+//var title = frame.document.title;
+//d.option("title", title);
+var title = title||url;
+var f = $("<iframe />").attr("src",url).attr("width", wid).dialog({width: wid+50, height: hei, title: title, show: dialogEffect, hide: dialogEffect, resizable: resiz, draggable: !isMobile(), position: pos}).dialogExtend({minimize: true});
+if (!!('ontouchstart' in window)) {
+f.css("overflow-y", "hidden")
+f.touchScroll();
+}
+}
+function addApp(url, hash) {
+var urlOrig = url;
+if(!url.match("http") && !url.match("file:") && !url.match("data:") && !url.match("gopher:") && !url.match("./") && !url.match("about:") && !url.match("mailto:")) {
+url = "http://"+url;
+}
+var urlA = url;
+console.log(urlA)
+if(url.substring(url.length-2, url.length-1)=="/") {
+url = url.substring(0, url.length-1);
+}
+var urlS = url.split("/");
+//console.log(urlS.length)
+//console.log(urlS[urlS.length-1].match("\."))
+if(urlS[urlS.length-1].match(".") && urlS.length>3) {
+var isDir = false;
+} else {
+var isDir = true;
+}
+if(isDir) {
+//var iconUrl = url+"/icon";
+var iconUrl = url+"/favicon.ico";
+} else {
+url="";
+for(i=0;i<urlS.length-1;i++) {
+url += urlS[i]+"/";
+}
+url = url.substring(0, url.length-1);
+var iconUrl = url+"/favicon.ico";
+}
+var img2add = $("<img />");
+img2add.attr("src", iconUrl);
+img2add.attr("class", "icon");
+console.log(2, urlA);
+img2add.attr("data-href", urlA);
+//Note to future self: remember that String.capitalize() isn't a built-in. It's up at the top. -G3n3r0
+var urlName = url.replace(/(http:\/\/|https:\/\/|mailto:|gopher:\/\/|data:|about:|file:\/\/|www.|.com|m.|.org|.co.uk|.name|.net|mobile.)/gi, "").capitalize();
+img2add.attr("alt", urlName);
+img2add.attr("title", urlName);
+//console.log(img2add);
+if(new RegExp(img2add[0], "gi").test($(".icon-window").html())) {
+$(".icon-window-apps").append(img2add);
+if(!hash) {
+openApp(urlA, img2add.attr("title"));
+}
+}
+updateContent();
+}
+function deleteApp(app) {
+/*
+if(confirm("Are you sure you want to remove this app?")) {
+$(app).remove();
+}
+*/
+//console.log($(".ui-selected"))
+//var appFinal = $(".ui-selected")[0]||$(app)[0];
+if($(".ui-selected")[0]) {
+    var appFinal = $(".ui-selected");
+} else {
+    var appFinal = $(app)
+}
+var txt = $("<p>Are you sure you want to remove this app?</p>");
+txt.dialog({
+modal: true,
+title: "Remove App?",
+buttons: {
+    //$(app).remove();
+  "OK": function() {appFinal.remove();updateContent();txt.dialog("close");},
+  "Cancel": function() {txt.dialog("close")}
+},
+show: dialogEffect,
+hide: dialogEffect,
+resizable: false
+});
+}
+var hash = location.hash.replace(/^\#/i, "");
+if(hash.match(/addApp\{/gi)) {
+    var app = hash.match(/{(.*?)}/gi)[0].replace(/({|})/gi, "");
+    app = unescape(app);
+    //console.log(app)
+    addApp(app, true);
+    location.hash = "";
+} else if(hash.match(/openApp\{/gi)) {
+    var app = hash.match(/{(.*?)}/gi)[0].replace(/({|})/gi, "");
+    app = unescape(app);
+    var appA = app.split(", ")
+    openApp(appA[0], appA[1]);
+    location.hash = "";
+}
+//openApp("file:///home/colin/Documents/jQueryOS/Test%20App/index.html");
+//openApp("http://www.google.com");
+//addApp("https://encrypted.google.com");
+$("#plusSign").click(function() {
+//var p = prompt("Enter URL", "");
+//var data = $("<input type='url' id='urlInput' /><input type='button' data-purp='submitter' />");
+var data = $("div.noDisplay");
+//console.log(data);
+data.dialog({modal: true, title: "Add App", height: 100, show: dialogEffect, hide: dialogEffect});
+//addApp(p);
+});
+$("#xSign").click(function() {
+$("<p>Are you sure you want to clear all apps?</p>").dialog({
+modal: true,
+title: "Are you sure?",
+buttons: {
+OK: function() {
+$(".icon-window-apps").html("");
+updateContent();
+$(this).dialog("close");
+},
+Cancel: function() {
+$(this).dialog("close");
+}
+},
+show: dialogEffect,
+hide: dialogEffect
+})
+});
+$("input[data-purp='submitter']").live("click", function() {
+addApp($("#urlInput").val());
+$(".noDisplay").dialog("close");
+$("#urlInput").val("");
+});
+$("img.icon, img.iconN").live("click", function() {
+openApp($(this).attr("data-href"), $(this).attr("title"));
+//alert("Hello");
+});
+$("img.icon").live("contextmenu", function(e) {
+//openApp($(this).attr("data-href"));
+//alert("Hello");
+//console.log(this);
+deleteApp(this);
+e.preventDefault();
+});
+/*
+window.touchStartTime;
+window.touchEndTime;
+$("img.icon").live("touchstart", function(e) {
+var date = new Date();
+window.touchStartTime = date.getTime();
+});
+$("img.icon").live("touchend", function(e) {
+var date = new Date();
+window.touchEndTime = date.getTime();
+var timeDif = window.touchEndTime-window.touchStartTime;
+if(timeDif>2500) {
+//console.log(this);
+deleteApp(this);
+}
+e.preventDefault();
+});*/
+window.pressing = false;
+$("img.icon").live("touchstart", function(e) {
+    window.pressing = true;
+    var t = setTimeout(function() {
+        if(window.pressing) {
+            deleteApp(this)
+            e.preventDefault()
+        }
+    }, 3000)
+})
+$("img.icon").live("touchend", function() {
+    window.pressing = false;
+})
+
+/*
+$(window).resize(function() {
+var w = $("img").css("width");
+console.log(w);
+$("img").css("height", w);
+});*/
+
+/*$(".icon-window, .icon-window-n").mousedown(function() {
+$(this).css("z-index", 6);
+if($(this).attr("class").match("icon-window-n")) {
+$(".icon-window").css("z-index", 5);
+} else {
+$(".icon-window-n").css("z-index", 5);
+}
+});
+$(".widget").mousedown(function() {
+$(".widget").css("z-index", 3)
+$(this).css("z-index", 4);
+/*if($(this).attr("class").match("icon-window-n")) {
+$(".widget").css("z-index", 3);
+} else {
+$(".icon-window-n").css("z-index", 3);
+}*
+});*/
+$(".zMove, .widget").live("mousedown", function(e) {
+    $(".zMove").css("z-index", 5);
+    $(".widget").css("z-index", 4);
+    //console.log($(".widget, .zMove"));
+    $(this).css("z-index", 6)
+})
+/*
+$("iframe").live("touchstart", function(e) {
+    window.touchX = e.clientX;
+    window.touchY = e.clientY;
+    e.preventDefault();
+});
+$("iframe").live("touchend", function(e) {
+    var difX = e.clientX-window.touchX;
+    var difY = e.clientY-window.touchY;
+    this.scrollTo(this.scrollLeft+difX, this.scrollTop+difY)
+})*//*
+if( self == top ) {
+        $("body").css("display", "block"); 
+    } else {
+        //top.location = self.location;
+        window.open(location.href, "_blank");
+         return false;
+    }*/
+/*$("body").live("touchmove", function(e) {
+    e.preventDefault()
+})*/
+$("body").keyup(function(e) {
+//    console.log(e)
+if(e.ctrlKey && e.altKey && e.keyCode==71) {
+    //alert("Shazam!");
+    addApp("./trippyStuff.xml");
+    $("<h1>You win the Easter Egg hunt!</h1>").dialog({title: "#winning"});
+    e.preventDefault()
+} else if(e.ctrlKey && e.altKey && e.keyCode==67) {
+    openApp("Console.html", "Console");
+}
+})
+
+$("#searchInput").keyup(function(e) {
+    if(e.keyCode==13) {
+        openApp("Widgets/Search.html#"+$(this).val(), "Search: "+$(this).val())
+    }
+});
+
+//console.log(Modernizr.mq("only screen and (max-device-width: 480px)"))
+if(Modernizr.mq("only screen and (max-device-width: 480px)")) {
+/*    window.onscroll = function() {
+        document.querySelector("#searchInput").style.top = (window.pageYOffset + window.innerHeight - 31) + 'px';
+    };*/
+    $(window).scroll(function() {
+        $("#searchInput").css("top", (window.pageYOffset + window.innerHeight - 31) + 'px')
+    });/*
+    $(".ui-dialog").live("dialogcreate", function(e, ui) {
+        alert();
+        $(this).dialog( "option", "draggable", false );
+    });*/
+    $(".ui-draggable").draggable("disable").removeClass("ui-state-disabled");
+    console.log($(".ui-draggable").attr("class"));
+}
+
+});
+</script>
+</head>
+<body class="ui-widget-content">
+<div class="icon-window zMove">
+<div id="plusSignCon"><b id="xSign">&#8855;</b> <b id="plusSign">&#8853;</b></div>
+<!--
+<img src="http://w3schools.com/images/w3jquery.gif" class="icon" /><img src="http://w3schools.com/images/w3html.gif" class="icon" />
+<img src="http://w3schools.com/images/w3html5.gif" class="icon" /><img src="http://w3schools.com/images/w3php.gif" class="icon" />
+-->
+<div class="icon-window-apps zMove"></div>
+</div><br />
+
+<div class="icon-window-n zMove">
+<div id="plusSignConN"><br /></div>
+<div class="icon-window-apps-n">
+<img src="MailIcon.png" class='iconN' data-href="Mail.html" title="Email" />
+<img src="BrowserIcon.png" class='iconN' data-href="Browser.html" title="Browser" />
+<img src="Youtube.png" class='iconN' data-href="Youtube.html" title="Youtube" />
+<!--<img src="Twitter.png" class='iconN' data-href="Twitter.html" title="Twitter" />-->
+<img src="Reddit.png" class='iconN' data-href="Reddit.html" title="Reddit" />
+<img src="video.png" class='iconN' data-href="IMDB.html" title="IMDB" />
+<!--<img src="ConsoleIcon.png" class="iconN" data-href="Console.html" title="Console" />-->
+<!--<img src="GoogleIcon.png" class="iconN" data-href="Google.html" title="Google" />-->
+<img src="StocksIcon.png" class="iconN" data-href="Stocks.html" title="Stocks" />
+<img src="GlyphishMapBig.png" class="iconN" data-href="Maps.html" title="Maps" />
+<img src="MusicIcon.png" class="iconN" data-href="Music.html" title="Music" />
+<img src="file:///C:/Users/Colin/Pictures/iPhone_App_Icon_Action_by_T.png" class="iconN" data-href="../../appstore/workspace/popular.html" title="App Store" />
+<img src="tools.png" class="iconN" data-href="Settings.html" title="Settings" />
+<!--<img src="tools.png" class="iconN" data-href="../../appstore/workspace/popular.html" title="App Store" />-->
+</div>
+</div>
+
+<!--Widgets-->
+<div id="widgetBox">
+<div class="widget">
+<div class="widgetHandle"></div>
+<div class="widgetContent">
+<iframe src="./Widgets/Clock.html"></iframe>
+</div>
+</div>
+<br />
+<div class="widget">
+<div class="widgetHandle"></div>
+<div class="widgetContent">
+<iframe src="./Widgets/Memo.html"></iframe>
+</div>
+</div>
+<br />
+<div class="widget search">
+<div class="widgetHandle"></div>
+<div class="widgetContent">
+<input type="search" placeholder="Search Term" id="searchInput" />
+</div>
+</div>
+
+</div>
+
+<div class="noDisplay">
+<input type='url' id='urlInput' /><input type='button' data-purp='submitter' value="Go" />
+</div>
+</body>
+</html>

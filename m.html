@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/cupertino/jquery-ui.css" type="text/css" />
+<style>
+body.ui-widget-content {
+    border: none;
+}
+.icon, .iconN {
+cursor: pointer;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+display: inline;
+width: 25%;
+
+//width: 33%;
+/*height: 5.208%;
+margin-left: 5px;
+margin-right: 5px;
+margin-top: 5px;
+*//*
+margin-left: 4.17%;
+margin-right: 4.17%;
+margin-top: 4.17%;
+*/
+margin:0px;
+padding:0px;
+}
+iframe {
+    margin:0px;
+    padding:0px;
+    border: none;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<!--<script src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js"></script>-->
+
+<script>
+$(document).ready(function() {
+    function start() {
+        var apps = localStorage.apps;
+        $("#apps").append(apps);
+    }
+    start();
+    $(".icon, .iconN").live("click", function() {
+        $("<iframe />").attr("data-rel", "dialog").attr("src", $(this).attr("data-href")).dialog({
+            title: $(this).attr("title"),
+            width: $("body").innerWidth(),
+            height: window.innerHeight
+        });
+//        $.mobile.changePage($("<iframe />").attr("data-rel", "dialog").attr("src", $(this).attr("data-href")),'pop',false,true)
+    });
+});
+</script>
+</head>
+<body class="ui-widget-content">
+<div id="apps">
+<img src="MailIcon.png" class='iconN' data-href="Mail.html" title="Email" />
+<img src="BrowserIcon.png" class='iconN' data-href="Browser.html" title="Browser" />
+<img src="Youtube.png" class='iconN' data-href="Youtube.html" title="Youtube" />
+<!--<img src="Twitter.png" class='iconN' data-href="Twitter.html" title="Twitter" />-->
+<img src="Reddit.png" class='iconN' data-href="Reddit.html" title="Reddit" />
+<img src="video.png" class='iconN' data-href="IMDB.html" title="IMDB" />
+<!--<img src="ConsoleIcon.png" class="iconN" data-href="Console.html" title="Console" />-->
+<!--<img src="GoogleIcon.png" class="iconN" data-href="Google.html" title="Google" />-->
+<img src="StocksIcon.png" class="iconN" data-href="Stocks.html" title="Stocks" />
+<img src="GlyphishMapBig.png" class="iconN" data-href="Maps.html" title="Maps" />
+<img src="MusicIcon.png" class="iconN" data-href="Music.html" title="Music" />
+<img src="AppStoreIcon.png" class="iconN" data-href="../../appstore/workspace/popular.html" title="App Store" />
+<img src="tools.png" class="iconN" data-href="Settings.html" title="Settings" />
+<!--<img src="tools.png" class="iconN" data-href="../../appstore/workspace/popular.html" title="App Store" />-->
+</div>
+</body>
+</html>
